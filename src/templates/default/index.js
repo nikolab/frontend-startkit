@@ -16,7 +16,9 @@ import Typography from '@material-ui/core/Typography'
 // Icons
 import CloseIcon from '@material-ui/icons/Clear'
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import MenuIcon from '@material-ui/icons/Menu'
+import Menu from '@material-ui/core/Menu';
+
+import Fingerprint from '@material-ui/icons/Fingerprint'
 
 import EmptyTemplate from 'templates/empty'
 import store from 'store'
@@ -26,7 +28,17 @@ import styles from './styles'
 class Template extends Component {
   state = {
     showMenu: false,
-  }
+    anchorEl: null,
+  };
+
+
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
 
   handleMenuOpen = () => {
     this.setState({ showMenu: true })
@@ -44,6 +56,7 @@ class Template extends Component {
   }
 
   render() {
+      const { anchorEl } = this.state;
     const AnonButton = (
       <Link to="/login" style={styles.login}>
         <Button color="inherit">Login</Button>
@@ -61,13 +74,47 @@ class Template extends Component {
         <AppBar position="static">
           <Toolbar>
             <IconButton color="inherit" onClick={menuButtonAction}>
-              <MenuIcon />
+                <div style={styles.logo}/>
+              Tilda Centar
             </IconButton>
+            <Link to={"/about"} style={styles.link}>
+              <Button color="inherit">
+                  About
+              </Button>
+            </Link>
+              <Button color="inherit">
+                  Team
+              </Button>
+            <a href="https://google.com" target="_blank" rel="noopener noreferrer" style={styles.link}>
+              <Button color="inherit">
+                  What we do
+              </Button>
+            </a>
             <Typography variant="title" color="inherit" style={styles.flex}>
               {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
               Frontend Startkit - {this.props.store.title.title}
             </Typography>
             {AuthButton}
+              <IconButton color="inherit">
+                  <Fingerprint/>
+              </IconButton>
+              <Button
+                  aria-owns={anchorEl ? 'simple-menu' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleClick}
+              >
+                  Open Menu
+              </Button>
+              <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleClose}
+              >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              </Menu>
           </Toolbar>
         </AppBar>
         <EmptyTemplate secure={this.props.secure} style={this.props.style}>

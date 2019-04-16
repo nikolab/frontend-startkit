@@ -1,7 +1,7 @@
+import logo from './logo.png';
 const a = {
   textDecoration: 'none',
 }
-
 
 export default {
   flex: {
@@ -20,4 +20,15 @@ export default {
     ...a,
     color: 'white',
   },
+
+  logo: {
+    backgroundImage: `url(${logo})`,
+    width: 60,
+    height: 60,
+  },
+
+  link: {
+      textDecoration: 'none',
+      color: '#fff',
+  }
 }
